@@ -8,7 +8,7 @@ module CardTests =
 
     [<Fact>]
     let ``Create 'Knight' card`` () =
-        let card = {
+        let expected = {
             id = Knight
             name = "Knight"
             description = "Knight. 15 Power. Deal 7 Damage. Soldier. Loyal."
@@ -19,37 +19,37 @@ module CardTests =
         
         let actual = createCard Knight
 
-        Assert.Equal(card, actual)
+        Assert.Equal(expected, actual)
 
     [<Fact>]
-    let ``Calculate score of the empty board should be 0 : 0`` () =
+    let ``Calculated score of the empty board should be 0 : 0`` () =
         let board = createBoard()
         let actual = calculateScore board
 
-        Assert.Equal(actual, (0, 0))
+        Assert.Equal((0, 0), actual)
 
     [<Fact>]
-    let ``Calculate score of the board with a 'Knight' put on the north should be 15 : 0`` () =
+    let ``Calculated score of the board with a 'Knight' put on the north should be 15 : 0`` () =
         let board = createBoard()
         let knight = createCard Knight
         board.north.melee1.[5] <- Some knight
 
         let actual = calculateScore board
 
-        Assert.Equal(actual, (15, 0))
+        Assert.Equal((15, 0), actual)
 
     [<Fact>]
-    let ``Calculate score of the board with a 'Knight' put on the south should be 0 : 15`` () =
+    let ``Calculated score of the board with a 'Knight' put on the south should be 0 : 15`` () =
         let board = createBoard()
         let knight = createCard Knight
         board.south.melee1.[5] <- Some knight
 
         let actual = calculateScore board
 
-        Assert.Equal(actual, (0, 15))
+        Assert.Equal((0, 15), actual)
 
     [<Fact>]
-    let ``Calculate score of the board with a 'Knight' put on the north and south should be 15 : 15`` () =
+    let ``Calculated score of the board with a 'Knight' put on the north and south should be 15 : 15`` () =
         let board = createBoard()
         let knight1 = createCard Knight
         let knight2 = createCard Knight
@@ -58,4 +58,18 @@ module CardTests =
 
         let actual = calculateScore board
 
-        Assert.Equal(actual, (15, 15))
+        Assert.Equal((15, 15), actual)
+
+    [<Fact>]
+    let ``Calculated score of the board with 2 'Knight' unit on the north and one on the south should be 30 : 15`` () =
+        let board = createBoard()
+        let knight1 = createCard Knight
+        let knight2 = createCard Knight
+        let knight3 = createCard Knight
+        board.north.melee1.[5] <- Some knight1
+        board.north.melee2.[5] <- Some knight2
+        board.south.melee1.[5] <- Some knight3
+
+        let actual = calculateScore board
+
+        Assert.Equal((30, 15), actual)
