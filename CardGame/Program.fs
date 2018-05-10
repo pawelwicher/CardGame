@@ -1,1 +1,7 @@
-module Program = let [<EntryPoint>] main _ = 0
+open System
+
+[<EntryPoint>]
+let main argv =
+    "Hello" |> Console.WriteLine
+    Console.ReadKey() |> ignore
+    0
