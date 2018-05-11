@@ -8,15 +8,7 @@ module CardGameTests =
 
     [<Fact>]
     let ``Create 'Knight' card.`` () =
-        let expected = {
-            id = Knight
-            name = "Knight"
-            description = "Knight. 15 Power. Deal 7 Damage. Soldier. Loyal."
-            basePower = 15
-            currentPower = 15
-            tags = [Unit; Loyal; Soldier]
-        }
-        
+        let expected = createKnight()        
         let actual = createCard Knight
 
         Assert.Equal(expected, actual)

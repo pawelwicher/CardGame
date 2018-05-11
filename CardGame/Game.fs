@@ -24,6 +24,7 @@ module Game =
         basePower: int
         currentPower: int
         tags: CardTag list
+        deploy: Card option -> Card option
     }
 
     (*
@@ -79,6 +80,12 @@ module Game =
 
     let calculateScore (board : Board) : (int * int) =
          (calculateSideScore board.north, calculateSideScore board.south)
+    
+    let deployKnight (card : Card option) : Card option =
+        if card.IsNone then
+            card
+        else
+            Some { card.Value with currentPower = card.Value.currentPower - 7 } 
 
     let createKnight() : Card =
         let card = { 
@@ -88,6 +95,7 @@ module Game =
             basePower = 15
             currentPower = 15
             tags = [Unit; Loyal; Soldier]
+            deploy = deployKnight
         }
         card
 
