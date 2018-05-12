@@ -97,3 +97,28 @@ module Tests =
         let actual = calculateScore board
 
         Assert.Equal((15, 20), actual)
+
+    [<Fact>]
+    let ``The 'Knight' from the north attacks the 'Knight' from the south, then the 'Druid' heals him, then another north 'Knight' kills the 'Druid', score should be 30 : 15.`` () =
+        let board = createBoard()
+
+        let emptyField = board.north.row1.[0]
+        let southKnight = createCard Knight
+        board.south.row1.[5] <- Field southKnight
+        board.north.row1.[5] <- (targetBoard southKnight [emptyField]).[0]
+
+        let northKnight = createCard Knight
+        board.north.row1.[5] <- Field northKnight
+        board.south.row1.[5] <- (targetBoard northKnight [Field southKnight]).[0]
+
+        let southDruid = createCard Druid
+        board.south.row1.[4] <- Field southDruid
+        board.south.row1.[5] <- (targetBoard southDruid [Field southKnight]).[0]
+
+        let northKnight2 = createCard Knight
+        board.north.row1.[4] <- Field northKnight2
+        board.south.row1.[4] <- (targetBoard northKnight2 [Field southDruid]).[0]
+
+        let actual = calculateScore board
+
+        Assert.Equal((30, 15), actual)
