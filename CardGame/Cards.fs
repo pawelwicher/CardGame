@@ -1,6 +1,7 @@
 ﻿namespace CardGame
 
 open Types
+open Board
 
 module Cards =
 
@@ -11,6 +12,15 @@ module Cards =
             description = "Knight. 15 Power. Deal 7 damage. Soldier. Loyal."
             basePower = 15
             currentPower = 15
+            tags = [Unit; Loyal; Soldier]
+        }
+
+        let archer() = { 
+            id = Archer
+            name = "Archer"
+            description = "Archer. 8 Power. Deal 2 damage 3 times. Soldier. Loyal."
+            basePower = 8
+            currentPower = 8
             tags = [Unit; Loyal; Soldier]
         }
 
@@ -25,26 +35,42 @@ module Cards =
 
         match id with
         | Knight -> knight()
-        | Druid -> druid()
-    
-    let targetBoard (card : Card) (target : BoardField list) : BoardField list =
-        let knight (target : BoardField list) : BoardField list =
-            let f (card : Card) : BoardField =
-                if card.currentPower <= 7 then
-                    EmptyField
-                else
-                    Field { card with currentPower = card.currentPower - 7 }        
-            match target with
-            | [Field card] -> [f card]
-            | _ -> target
+        | Archer -> archer()
+        | Druid  -> druid()
 
-        let druid (target : BoardField list) : BoardField list =
-            let f (card : Card) : BoardField =
-                Field { card with currentPower = card.basePower }        
-            match target with
-            | [Field card] -> [f card]
-            | _ -> target
+    let deployCard (id : CardId) : (BoardFieldId list -> Board -> unit) =
+        let knight (fieldIds : BoardFieldId list) (board : Board) : unit =
+            let f (field : BoardField) : BoardField =
+                match field with
+                | Field card -> if card.currentPower <= 7 then
+                                    EmptyField 
+                                else
+                                    Field { card with currentPower = card.currentPower - 7 }
+                | _ -> field
+            fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
 
-        match card.id with
-        | Knight -> knight target
-        | Druid -> druid target
+        let archer (fieldIds : BoardFieldId list) (board : Board) : unit =
+            let f (field : BoardField) : BoardField =
+                match field with
+                | Field card -> if card.currentPower <= 2 then
+                                    EmptyField 
+                                else
+                                    Field { card with currentPower = card.currentPower - 2 }
+                | _ -> field
+            fieldIds |> List.take 3 |> List.iter (fun fieldId -> changeField fieldId board f)
+
+        let druid (fieldIds : BoardFieldId list) (board : Board) : unit =
+            let f (field : BoardField) : BoardField =
+                match field with
+                | Field card -> Field { card with currentPower = card.basePower }
+                | _ -> field
+            fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
+
+        match id with
+        | Knight -> knight
+        | Archer -> archer
+        | Druid  -> druid
+
+    let playCard (card : Card) (fieldId : BoardFieldId) (fieldIds : BoardFieldId list) (board : Board) : unit =
+        changeField fieldId board (fun _ -> Field card)
+        deployCard card.id fieldIds board
