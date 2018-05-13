@@ -6,6 +6,7 @@ module Types =
         | Knight
         | Archer
         | Druid
+        | Thunderbolt
 
     type CardTag =
         | Unit

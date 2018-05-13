@@ -10,6 +10,7 @@ module Tests =
     [<Fact>]
     let ``when board is empty, score should be 0 : 0.`` () =
         let board = createBoard()
+
         let actual = calculateScore board
 
         Assert.Equal((0, 0), actual)
@@ -17,6 +18,7 @@ module Tests =
     [<Fact>]
     let ``when there is one Knight on the north, score should be 15 : 0.`` () =
         let board = createBoard()
+
         let knight = createCard Knight
         
         playCard knight N_A5 [S_A5] board
@@ -28,6 +30,7 @@ module Tests =
     [<Fact>]
     let ``when there is one Knight on the south, score should be 0 : 15.`` () =
         let board = createBoard()
+
         let knight = createCard Knight
         
         playCard knight S_A5 [N_A5] board
@@ -50,6 +53,7 @@ module Tests =
     [<Fact>]
     let ``when there is one Knight on the north and one Knight on the south, score should be 15 : 15.`` () =
         let board = createBoard()
+
         let knight1 = createCard Knight
         let knight2 = createCard Knight
 
@@ -63,6 +67,7 @@ module Tests =
     [<Fact>]
     let ``when there are two Knight units on the north and one Knight on the south, score should be 30 : 15.`` () =
         let board = createBoard()
+
         let knight1 = createCard Knight
         let knight2 = createCard Knight
         let knight3 = createCard Knight
@@ -151,3 +156,17 @@ module Tests =
         let actual = calculateScore board
 
         Assert.Equal((69, 8), actual)
+
+    [<Fact>]
+    let ``when there is one Knight and the Thunderbolt hits him, score should be 5 : 0.`` () =
+        let board = createBoard()
+
+        let knight = createCard Knight
+        let thunderbolt = createCard Thunderbolt
+
+        playCard knight N_A5 [S_A0] board
+        playCard thunderbolt S_A5 [N_A5] board
+
+        let actual = calculateScore board
+
+        Assert.Equal((5, 0), actual)

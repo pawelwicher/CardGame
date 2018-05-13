@@ -25,6 +25,10 @@ let main argv =
 
     let southArcher = createCard Archer
     playCard southArcher S_E5 [N_C1;N_C2;N_C3;N_C4;N_C5] board
+
+    let thunderbolt = createCard Thunderbolt
+    playCard thunderbolt S_E5 [N_C5] board
+
     (printBoard board) |> Console.WriteLine
 
     Console.ReadKey() |> ignore
