@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27130.2003
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "CardGame", "CardGame\CardGame.fsproj", "{E1A741C3-5747-49D0-BA9F-58471861C21D}"
+Project("{6EC3EE1D-3C4E-46DD-8F32-0CC8E7565705}") = "CardGame", "CardGame\CardGame.fsproj", "{E1A741C3-5747-49D0-BA9F-58471861C21D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

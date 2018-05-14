@@ -13,6 +13,17 @@ module Cards =
             basePower = 15
             currentPower = 15
             tags = [Unit; Loyal; Soldier]
+            deploy =
+                fun (card : Card) (fieldId : BoardFieldId) (fieldIds : BoardFieldId list) (board : Board) ->
+                    changeField fieldId board (fun _ -> Field card)
+                    let f (field : BoardField) : BoardField =
+                        match field with
+                        | Field card -> if card.currentPower <= 7 then
+                                            EmptyField 
+                                        else
+                                            Field { card with currentPower = card.currentPower - 7 }
+                        | _ -> field
+                    fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
         }
 
         let archer() = { 
@@ -22,6 +33,17 @@ module Cards =
             basePower = 8
             currentPower = 8
             tags = [Unit; Loyal; Soldier]
+            deploy =
+                fun (card : Card) (fieldId : BoardFieldId) (fieldIds : BoardFieldId list) (board : Board) ->
+                    changeField fieldId board (fun _ -> Field card)
+                    let f (field : BoardField) : BoardField =
+                        match field with
+                        | Field card -> if card.currentPower <= 2 then
+                                            EmptyField 
+                                        else
+                                            Field { card with currentPower = card.currentPower - 2 }
+                        | _ -> field
+                    fieldIds |> List.take 3 |> List.iter (fun fieldId -> changeField fieldId board f)
         }
 
         let druid() = {
@@ -31,6 +53,14 @@ module Cards =
             basePower = 5
             currentPower = 5
             tags = [Unit; Loyal; Support]
+            deploy =
+                fun (card : Card) (fieldId : BoardFieldId) (fieldIds : BoardFieldId list) (board : Board) ->
+                    changeField fieldId board (fun _ -> Field card)
+                    let f (field : BoardField) : BoardField =
+                        match field with
+                        | Field card -> Field { card with currentPower = card.basePower }
+                        | _ -> field
+                    fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
         }
 
         let thunderbolt() = {
@@ -40,6 +70,16 @@ module Cards =
             basePower = 0
             currentPower = 0
             tags = [Special; Spell]
+            deploy =
+                fun (card : Card) (fieldId : BoardFieldId) (fieldIds : BoardFieldId list) (board : Board) ->
+                    let f (field : BoardField) : BoardField =
+                        match field with
+                        | Field card -> if card.currentPower <= 10 then
+                                            EmptyField 
+                                        else
+                                            Field { card with currentPower = card.currentPower - 10 }
+                        | _ -> field
+                    fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
         }
 
         match id with
@@ -49,48 +89,4 @@ module Cards =
         | Thunderbolt -> thunderbolt()
 
     let playCard (card : Card) (fieldId : BoardFieldId) (fieldIds : BoardFieldId list) (board : Board) : unit =
-        let knight (fieldIds : BoardFieldId list) (board : Board) : unit =
-            changeField fieldId board (fun _ -> Field card)
-            let f (field : BoardField) : BoardField =
-                match field with
-                | Field card -> if card.currentPower <= 7 then
-                                    EmptyField 
-                                else
-                                    Field { card with currentPower = card.currentPower - 7 }
-                | _ -> field
-            fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
-
-        let archer (fieldIds : BoardFieldId list) (board : Board) : unit =
-            changeField fieldId board (fun _ -> Field card)
-            let f (field : BoardField) : BoardField =
-                match field with
-                | Field card -> if card.currentPower <= 2 then
-                                    EmptyField 
-                                else
-                                    Field { card with currentPower = card.currentPower - 2 }
-                | _ -> field
-            fieldIds |> List.take 3 |> List.iter (fun fieldId -> changeField fieldId board f)
-
-        let druid (fieldIds : BoardFieldId list) (board : Board) : unit =
-            changeField fieldId board (fun _ -> Field card)
-            let f (field : BoardField) : BoardField =
-                match field with
-                | Field card -> Field { card with currentPower = card.basePower }
-                | _ -> field
-            fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
-
-        let thunderbolt (fieldIds : BoardFieldId list) (board : Board) : unit =
-            let f (field : BoardField) : BoardField =
-                match field with
-                | Field card -> if card.currentPower <= 10 then
-                                    EmptyField 
-                                else
-                                    Field { card with currentPower = card.currentPower - 10 }
-                | _ -> field
-            fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
-
-        match card.id with
-        | Knight -> knight fieldIds board
-        | Archer -> archer fieldIds board
-        | Druid  -> druid fieldIds board
-        | Thunderbolt -> thunderbolt fieldIds board
+        card.deploy card fieldId fieldIds board

@@ -31,23 +31,24 @@ module Types =
         | S_D0 | S_D1 | S_D2 | S_D3 | S_D4 | S_D5 | S_D6 | S_D7 | S_D8 | S_D9
         | S_E0 | S_E1 | S_E2 | S_E3 | S_E4 | S_E5 | S_E6 | S_E7 | S_E8 | S_E9
 
-    type Card = {
+    type BoardField =
+        | EmptyField
+        | Field of Card
+
+    and Card = {
         id: CardId
         name: string
         description: string
         basePower: int
         currentPower: int
         tags: CardTag list
+        deploy: Card -> BoardFieldId -> BoardFieldId list -> Board -> unit
     }
 
-    type BoardField =
-        | EmptyField
-        | Field of Card
-
-    type BoardRow =
+    and BoardRow =
         BoardField array
 
-    type BoardSide = {
+    and BoardSide = {
         row1: BoardRow
         row2: BoardRow
         row3: BoardRow
@@ -55,7 +56,7 @@ module Types =
         row5: BoardRow
     }
 
-    type Board = {
+    and Board = {
         north: BoardSide
         south: BoardSide
     }

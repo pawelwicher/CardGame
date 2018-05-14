@@ -1,6 +1,7 @@
 ﻿namespace CardGame
 
 open Xunit
+open FsUnit.Xunit
 open Types
 open Board
 open Cards
@@ -13,7 +14,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((0, 0), actual)
+        actual |> should equal (0, 0)
 
     [<Fact>]
     let ``when there is one Knight on the north, score should be 15 : 0.`` () =
@@ -25,7 +26,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((15, 0), actual)
+        actual |> should equal (15, 0)
 
     [<Fact>]
     let ``when there is one Knight on the south, score should be 0 : 15.`` () =
@@ -37,7 +38,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((0, 15), actual)
+        actual |> should equal (0, 15)
 
     [<Fact>]
     let ``when there is one Knight on the south, and he hits himself, score should be 0 : 8.`` () =
@@ -48,7 +49,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((0, 8), actual)
+        actual |> should equal (0, 8)
 
     [<Fact>]
     let ``when there is one Knight on the north and one Knight on the south, score should be 15 : 15.`` () =
@@ -62,7 +63,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((15, 15), actual)
+        actual |> should equal (15, 15)
 
     [<Fact>]
     let ``when there are two Knight units on the north and one Knight on the south, score should be 30 : 15.`` () =
@@ -78,7 +79,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((30, 15), actual)
+        actual |> should equal (30, 15)
 
     [<Fact>]
     let ``when the Knight from the north attacks the Knight from the south, score should be 15 : 8.`` () =
@@ -92,7 +93,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((15, 8), actual)
+        actual |> should equal (15, 8)
 
     [<Fact>]
     let ``when the Knight from the north attacks the Knight from the south, then the Druid from the south heals him, score should be 15 : 20.`` () =
@@ -109,7 +110,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((15, 20), actual)
+        actual |> should equal (15, 20)
 
     [<Fact>]
     let ``when the Knight from the north attacks the Knight from the south, then the Druid from the south heals him, then another north Knight hits the south druid, score should be 30 : 15.`` () =
@@ -129,7 +130,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((30, 15), actual)
+        actual |> should equal (30, 15)
 
     [<Fact>]
     let ``when there are five Knight units on the north and the archer from the south attacks them, score should be 30 : 15.`` () =
@@ -155,7 +156,7 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((69, 8), actual)
+        actual |> should equal (69, 8)
 
     [<Fact>]
     let ``when there is one Knight and the Thunderbolt hits him, score should be 5 : 0.`` () =
@@ -169,4 +170,4 @@ module Tests =
 
         let actual = calculateScore board
 
-        Assert.Equal((5, 0), actual)
+        actual |> should equal (5, 0)
