@@ -3,10 +3,11 @@ open CardGame.Types
 open CardGame.Board
 open CardGame.Cards
 open CardGame.DebugHelper
+open CardGame
 
 [<EntryPoint>]
 let main argv =
-    let board = createBoard()
+    (*let board = createBoard()
 
     let northKnight1 = createCard Knight
     playCard northKnight1 N_C1 [S_C0] board
@@ -29,7 +30,15 @@ let main argv =
     let thunderbolt = createCard Thunderbolt
     playCard thunderbolt S_E5 [N_C5] board
 
-    (printBoard board) |> Console.WriteLine
+    (printBoard board) |> Console.WriteLine*)
 
-    Console.ReadKey() |> ignore
+    "1 - Server mode" |> Console.WriteLine
+    "2 - Client mode" |> Console.WriteLine
+    let c = Console.ReadKey()
+
+    if c.KeyChar = '1' then
+        GameServer.start()
+    elif c.KeyChar = '2' then
+        GameClient.start()
+
     0
