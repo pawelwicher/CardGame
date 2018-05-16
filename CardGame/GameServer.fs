@@ -6,7 +6,7 @@ open SimpleTCP
 
 module GameServer =
 
-    let playersNames = ["bob"; "ted"]
+    let playersNames = ["aaa"; "bbb"; "ccc"; "ddd"; "eee"]
     let mutable i = 0
 
     let start() =
@@ -22,7 +22,7 @@ module GameServer =
         server.ClientConnected.Add(fun c ->
             "Client connected." |> Console.WriteLine
             let name = playersNames.[i]
-            send ("Hello : " + name) c
+            send ("Hello: " + name) c
             i <- i + 1
         )
 

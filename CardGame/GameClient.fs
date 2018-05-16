@@ -8,7 +8,9 @@ module GameClient =
     let start() =
         let simpleTcpClient = new SimpleTcpClient()
         let client = simpleTcpClient.Connect("127.0.0.1", 8080)
-        let mutable loop = true
+
+        // For client identyfication - use this like request header to recognize player
+        let clientId = Guid.NewGuid()
 
         client.DataReceived.Add(fun e ->
             Console.Clear()
@@ -17,12 +19,6 @@ module GameClient =
 
         Console.Clear()
     
-        while loop do
-            let line = Console.ReadLine()
-            if line = "quit" then
-                loop <- false
-            else
-                line |> client.Write
-                Console.Clear()
-    
-        client.Disconnect() |> ignore
+        while true do
+            Console.ReadLine() |> client.Write
+            Console.Clear()
