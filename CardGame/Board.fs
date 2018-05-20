@@ -4,7 +4,7 @@ open Types
 
 module Board =
 
-    let createBoard() : Board =
+    let createBoard () : Board =
         let empty() : BoardRow =
             Array.init 10 (fun _ -> EmptyField)
         {

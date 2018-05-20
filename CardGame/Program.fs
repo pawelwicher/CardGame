@@ -6,7 +6,7 @@ open CardGame.DebugHelper
 open CardGame
 
 [<EntryPoint>]
-let main argv =
+let main _ =
     (*let board = createBoard()
 
     let northKnight1 = createCard Knight

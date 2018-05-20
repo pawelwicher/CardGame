@@ -6,7 +6,7 @@ open Board
 module Cards =
 
     let createCard (id : CardId) : Card =
-        let knight() = { 
+        let knight () = { 
             id = Knight
             name = "Knight"
             description = "Knight. 15 Power. Deal 7 damage. Soldier. Loyal."
@@ -26,7 +26,7 @@ module Cards =
                     fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
         }
 
-        let archer() = { 
+        let archer () = { 
             id = Archer
             name = "Archer"
             description = "Archer. 8 Power. Deal 2 damage 3 times. Soldier. Loyal."
@@ -46,7 +46,7 @@ module Cards =
                     fieldIds |> List.take 3 |> List.iter (fun fieldId -> changeField fieldId board f)
         }
 
-        let druid() = {
+        let druid () = {
             id = Druid
             name = "Druid"
             description = "Druid. 5 Power. Heal damaged unit. Support. Loyal."
@@ -63,7 +63,7 @@ module Cards =
                     fieldIds |> List.take 1 |> List.iter (fun fieldId -> changeField fieldId board f)
         }
 
-        let thunderbolt() = {
+        let thunderbolt () = {
             id = Thunderbolt
             name = "Thunderbolt"
             description = "Thunderbolt. Deal 10 damage. Spell."

@@ -5,7 +5,7 @@ open SimpleTCP
 
 module GameClient =
 
-    let start() =
+    let start () =
         let simpleTcpClient = new SimpleTcpClient()
         let client = simpleTcpClient.Connect("127.0.0.1", 8080)
 

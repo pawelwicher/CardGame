@@ -10,7 +10,7 @@ module GameServer =
     let mutable players : Player list = []
     let mutable games : Game list = []
 
-    let start() =
+    let start () =
         let simpleTcpServer = new SimpleTcpServer()
         let server = simpleTcpServer.Start(port = 8080)
 
@@ -18,12 +18,12 @@ module GameServer =
             let data = server.StringEncoder.GetBytes(msg)
             client.GetStream().Write(data, 0, data.Length)
 
-        let gameToString (game : Game) : string =
-            game.name + " state: " + game.state
+        let gameToString (game : Game) (playerToPlay : PlayerToPlay) : string =
+            "[" + playerToPlay.ToString() + "] " + game.name + " " + game.message + " state: " + game.state
         
         let gameSendToPlayers (game : Game) : unit =
-            send (gameToString game) game.player1.tcpClient
-            send (gameToString game) game.player2.tcpClient
+            send (gameToString game Player1) game.player1.tcpClient
+            send (gameToString game Player2) game.player2.tcpClient
 
         let findGame (games : Game list) (client : TcpClient) : Game option =
             let games = games |> List.filter (fun (x : Game) -> x.player1.tcpClient.Client.Handle = client.Client.Handle || x.player2.tcpClient.Client.Handle = client.Client.Handle)
@@ -32,18 +32,48 @@ module GameServer =
             else
                 None
 
+        let createMessage (playerToPlay : PlayerToPlay) : string =
+            match playerToPlay with
+            | Player1 -> "Player's 1 turn."
+            | Player2 -> "Player's 2 turn."
+
+        let processGameCommand (cmd : string) (game : Game) (client : TcpClient) : unit =
+            if game.playerToPlay = Player1 && game.player1.tcpClient.Client.Handle = client.Client.Handle then
+                game.playerToPlay <- Player2
+                game.message <- createMessage game.playerToPlay
+                game.state <- cmd
+
+            if game.playerToPlay = Player2 && game.player2.tcpClient.Client.Handle = client.Client.Handle then
+                game.playerToPlay <- Player1
+                game.message <- createMessage game.playerToPlay
+                game.state <- cmd
+                
+            gameSendToPlayers game
+
+            // here todo: processing cmd. bob card1 S_A5 N_A5,N_A6
+            ()
+
         Console.Clear()
         "Server started." |> Console.WriteLine
 
         server.ClientConnected.Add(fun client ->
             "Client connected." |> Console.WriteLine
             let player = { tcpClient = client }
-            players <- player :: players
+            players <- players @ [player]
 
             if players.Length = 2 then
-                let game = { player1 = players.[0]; player2 = players.[1]; name = ("Game " + games.Length.ToString()); state = "" }
+                let game = {
+                    playerToPlay = Player1
+                    player1 = players.[0]
+                    player2 = players.[1]
+                    name = ("Game " + games.Length.ToString())
+                    message = ""
+                    state = ""
+                }
                 games <- game :: games
                 players <- []
+
+                game.message <- createMessage game.playerToPlay
                 gameSendToPlayers game
         )
 
@@ -54,10 +84,7 @@ module GameServer =
             let game = findGame games msg.TcpClient
 
             if game.IsSome then
-                game.Value.state <- cmd
-                gameSendToPlayers game.Value
-
-            // here todo: processing cmd. bob card1 S_A5 N_A5,N_A6
+                processGameCommand cmd game.Value msg.TcpClient
         )
 
         Console.ReadKey() |> ignore
