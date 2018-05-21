@@ -15,7 +15,6 @@ module GameClient =
         )
 
         Console.Clear()
-    
         while true do
             Console.ReadLine() |> client.Write
             Console.Clear()

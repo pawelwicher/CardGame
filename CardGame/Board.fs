@@ -1,5 +1,7 @@
 ﻿namespace CardGame
 
+open System
+open System.Text
 open Types
 
 module Board =
@@ -10,6 +12,8 @@ module Board =
         {
             north = { row1 = empty(); row2 = empty(); row3 = empty(); row4 = empty(); row5 = empty() }
             south = { row1 = empty(); row2 = empty(); row3 = empty(); row4 = empty(); row5 = empty() }
+            player1Hand = { cards = [] }
+            player2Hand = { cards = [] }
         }
 
     let calculateScore (board : Board) : (int * int) =
@@ -21,11 +25,11 @@ module Board =
                     | Field card -> card.currentPower
                 row |> (Array.map mapBoardField >> Array.sum)
             [   
-                side.row1 |> calculateRow
-                side.row2 |> calculateRow
-                side.row3 |> calculateRow
-                side.row4 |> calculateRow
-                side.row5 |> calculateRow
+                calculateRow side.row1
+                calculateRow side.row2
+                calculateRow side.row3
+                calculateRow side.row4
+                calculateRow side.row5
             ] |> List.sum
 
         (calculateSideScore board.north, calculateSideScore board.south)
@@ -132,3 +136,52 @@ module Board =
         | S_E7 -> board.south.row5.[7] <- f board.south.row5.[7]
         | S_E8 -> board.south.row5.[8] <- f board.south.row5.[8]
         | S_E9 -> board.south.row5.[9] <- f board.south.row5.[9]
+
+    let printBoard (board : Board) : string =
+        let sb = new StringBuilder()
+        let fieldToString (field : BoardField) : string =
+            match field with
+            | EmptyField -> String.Format("{0,10}", "|")
+            | Field card -> String.Format("{0,-9}|", card.name + " " + card.currentPower.ToString())
+        let (s1, s2) = calculateScore board
+        
+        sb.Append("---") |> ignore
+        ([0 .. 9] |> List.iter (fun i -> sb.AppendFormat("--- {0} ----", i) |> ignore)) |> ignore
+        sb.AppendLine() |> ignore
+        sb.Append("|E|") |> ignore
+        board.north.row5 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendLine() |> ignore
+        sb.Append("|D|") |> ignore
+        board.north.row4 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendLine() |> ignore
+        sb.Append("|C|") |> ignore
+        board.north.row3 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendFormat("  {0}", s1) |> ignore
+        sb.AppendLine() |> ignore
+        sb.Append("|B|") |> ignore
+        board.north.row2 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendLine() |> ignore
+        sb.Append("|A|") |> ignore
+        board.north.row1 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendLine() |> ignore
+        sb.AppendLine("-" |> String.replicate 103) |> ignore
+        sb.Append("|A|") |> ignore
+        board.south.row1 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendLine() |> ignore
+        sb.Append("|B|") |> ignore
+        board.south.row2 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendLine() |> ignore
+        sb.Append("|C|") |> ignore
+        board.south.row3 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendFormat("  {0}", s2) |> ignore
+        sb.AppendLine() |> ignore
+        sb.Append("|D|") |> ignore
+        board.south.row4 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendLine() |> ignore
+        sb.Append("|E|") |> ignore
+        board.south.row5 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        sb.AppendLine() |> ignore
+        sb.Append("---") |> ignore
+        ([0 .. 9] |> List.iter (fun i -> sb.AppendFormat("--- {0} ----", i) |> ignore)) |> ignore
+        sb.AppendLine() |> ignore
+        sb.ToString()

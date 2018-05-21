@@ -59,4 +59,10 @@ module Types =
     and Board = {
         north: BoardSide
         south: BoardSide
+        player1Hand: Hand
+        player2Hand: Hand
+    }
+
+    and Hand = {
+        cards: Card list
     }

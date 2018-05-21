@@ -12,7 +12,6 @@
     <Compile Include="Cards.fs" />
     <Compile Include="Game.fs" />
     <Compile Include="Tests.fs" />
-    <Compile Include="DebugHelper.fs" />
     <Compile Include="GameServer.fs" />
     <Compile Include="GameClient.fs" />
     <Compile Include="Program.fs" />
