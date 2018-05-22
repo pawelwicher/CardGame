@@ -45,6 +45,10 @@ module Types =
         deploy: Card -> BoardFieldId -> BoardFieldId list -> Board -> unit
     }
 
+    and Hand = {
+        cards: Card list
+    }
+
     and BoardRow =
         BoardField array
 
@@ -63,6 +67,13 @@ module Types =
         player2Hand: Hand
     }
 
-    and Hand = {
-        cards: Card list
+    type Player =
+        | Player1
+        | Player2
+
+    type Game = {
+        board: Board
+        mutable playerToPlay: Player
+        mutable message: string
+        mutable state: string
     }

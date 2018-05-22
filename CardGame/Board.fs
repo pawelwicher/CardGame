@@ -137,7 +137,7 @@ module Board =
         | S_E8 -> board.south.row5.[8] <- f board.south.row5.[8]
         | S_E9 -> board.south.row5.[9] <- f board.south.row5.[9]
 
-    let printBoard (board : Board) : string =
+    let boardToString (board : Board) : string =
         let sb = new StringBuilder()
         let fieldToString (field : BoardField) : string =
             match field with
