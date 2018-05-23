@@ -25,8 +25,11 @@ module GameServer =
 
         server.ClientConnected.Add(fun client ->
             if client1 = null || client2 = null then
-                if client1 = null then client1 <- client
-                if client2 = null then client2 <- client
+                if client1 = null then
+                    client1 <- client
+                elif client2 = null then 
+                    client2 <- client
+
                 if client1 <> null && client2 <> null then
                     send (gameToString game Player1) client1
                     send (gameToString game Player2) client2

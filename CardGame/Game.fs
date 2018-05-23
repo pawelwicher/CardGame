@@ -7,6 +7,8 @@ module Game =
 
     let createGame () = {
         board = createBoard()
+        player1Hand = { cards = [] }
+        player2Hand = { cards = [] }
         playerToPlay = Player1
         message = ""
         state = ""
@@ -16,4 +18,4 @@ module Game =
         ()
 
     let gameToString (game : Game) (player : Player) : string =
-        player.ToString()
+        boardToString game.board player

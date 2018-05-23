@@ -63,8 +63,6 @@ module Types =
     and Board = {
         north: BoardSide
         south: BoardSide
-        player1Hand: Hand
-        player2Hand: Hand
     }
 
     type Player =
@@ -73,6 +71,8 @@ module Types =
 
     type Game = {
         board: Board
+        player1Hand: Hand
+        player2Hand: Hand
         mutable playerToPlay: Player
         mutable message: string
         mutable state: string

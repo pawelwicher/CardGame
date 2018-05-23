@@ -12,8 +12,6 @@ module Board =
         {
             north = { row1 = empty(); row2 = empty(); row3 = empty(); row4 = empty(); row5 = empty() }
             south = { row1 = empty(); row2 = empty(); row3 = empty(); row4 = empty(); row5 = empty() }
-            player1Hand = { cards = [] }
-            player2Hand = { cards = [] }
         }
 
     let calculateScore (board : Board) : (int * int) =
@@ -137,7 +135,7 @@ module Board =
         | S_E8 -> board.south.row5.[8] <- f board.south.row5.[8]
         | S_E9 -> board.south.row5.[9] <- f board.south.row5.[9]
 
-    let boardToString (board : Board) : string =
+    let boardToString (board : Board) (player : Player) : string =
         let sb = new StringBuilder()
         let fieldToString (field : BoardField) : string =
             match field with
@@ -145,6 +143,8 @@ module Board =
             | Field card -> String.Format("{0,-9}|", card.name + " " + card.currentPower.ToString())
         let (s1, s2) = calculateScore board
         
+        sb.Append(player.ToString()) |> ignore
+        sb.AppendLine() |> ignore
         sb.Append("---") |> ignore
         ([0 .. 9] |> List.iter (fun i -> sb.AppendFormat("--- {0} ----", i) |> ignore)) |> ignore
         sb.AppendLine() |> ignore
