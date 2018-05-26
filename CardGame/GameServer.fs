@@ -5,6 +5,7 @@ open System.Net.Sockets
 open SimpleTCP
 open Types
 open Game
+open GameHelpers
 
 module GameServer =
 
@@ -19,6 +20,12 @@ module GameServer =
         let send (msg : string) (client : TcpClient) : unit =
             let data = server.StringEncoder.GetBytes(msg)
             client.GetStream().Write(data, 0, data.Length)
+        
+        let getPlayer (client : TcpClient) : Player =
+            if client.Client.Handle = client1.Client.Handle then
+                Player1
+            else
+                Player2
 
         Console.Clear()
         "Server started." |> Console.WriteLine
@@ -37,7 +44,8 @@ module GameServer =
 
         server.DataReceived.Add(fun msg ->
             let command = msg.MessageString
-            processGameCommand game command
+            let player = getPlayer msg.TcpClient
+            processGameCommand game player command
             send (gameToString game Player1) client1
             send (gameToString game Player2) client2
         )

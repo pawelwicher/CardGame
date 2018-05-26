@@ -5,6 +5,7 @@ open FsUnit.Xunit
 open Types
 open Board
 open Cards
+open Game
 
 module Tests =
 
