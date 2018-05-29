@@ -172,3 +172,12 @@ module Tests =
         let actual = calculateScore board
 
         actual |> should equal (5, 0)
+
+    [<Fact>]
+    let ``when game is created player's hands and decks should not be empty.`` () =
+        let actual = createGame()
+
+        actual.player1Hand |> should not' (be Empty)
+        actual.player2Hand |> should not' (be Empty)
+        actual.player1Deck |> should not' (be Empty)
+        actual.player2Deck |> should not' (be Empty)

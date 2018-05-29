@@ -79,7 +79,5 @@ module Types =
         player2Deck: Deck
         player1Hand: Hand
         player2Hand: Hand
-        mutable playerToPlay: Player
-        mutable message: string
-        mutable state: string
+        playerToPlay: Player
     }

@@ -9,7 +9,7 @@ open GameHelpers
 
 module GameServer =
 
-    let game = createGame()
+    let mutable game = createGame()
     let mutable client1 : TcpClient = null
     let mutable client2 : TcpClient = null
 

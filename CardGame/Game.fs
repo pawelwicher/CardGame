@@ -14,6 +14,9 @@ module Game =
     let createHand (deck : Deck) : Hand =
         { cards = [createCard Knight; createCard Archer] }
 
+    let coinFlip () : Player =
+        Player1
+
     let createGame () =
         let deck1 = createDeck Player1
         let deck2 = createDeck Player2
@@ -25,9 +28,7 @@ module Game =
             player2Deck = deck2
             player1Hand = hand1
             player2Hand = hand2
-            playerToPlay = Player1
-            message = ""
-            state = ""
+            playerToPlay = coinFlip()
         }
         game
 
