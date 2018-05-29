@@ -49,6 +49,10 @@ module Types =
         cards: Card list
     }
 
+    and Deck = {
+        cards: Card list
+    }
+
     and BoardRow =
         BoardField array
 
@@ -61,8 +65,8 @@ module Types =
     }
 
     and Board = {
-        north: BoardSide
-        south: BoardSide
+        player1Side: BoardSide
+        player2Side: BoardSide
     }
 
     type Player =
@@ -71,6 +75,8 @@ module Types =
 
     type Game = {
         board: Board
+        player1Deck: Deck
+        player2Deck: Deck
         player1Hand: Hand
         player2Hand: Hand
         mutable playerToPlay: Player

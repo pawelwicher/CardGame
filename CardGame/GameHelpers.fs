@@ -21,37 +21,37 @@ module GameHelpers =
         ([0 .. 9] |> List.iter (fun i -> sb.AppendFormat("--- {0} ----", i) |> ignore)) |> ignore
         sb.AppendLine() |> ignore
         sb.Append("|E|") |> ignore
-        board.north.row5 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player1Side.row5 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendLine() |> ignore
         sb.Append("|D|") |> ignore
-        board.north.row4 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player1Side.row4 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendLine() |> ignore
         sb.Append("|C|") |> ignore
-        board.north.row3 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player1Side.row3 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendFormat("  {0}", s1) |> ignore
         sb.AppendLine() |> ignore
         sb.Append("|B|") |> ignore
-        board.north.row2 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player1Side.row2 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendLine() |> ignore
         sb.Append("|A|") |> ignore
-        board.north.row1 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player1Side.row1 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendLine() |> ignore
         sb.AppendLine("-" |> String.replicate 103) |> ignore
         sb.Append("|A|") |> ignore
-        board.south.row1 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player2Side.row1 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendLine() |> ignore
         sb.Append("|B|") |> ignore
-        board.south.row2 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player2Side.row2 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendLine() |> ignore
         sb.Append("|C|") |> ignore
-        board.south.row3 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player2Side.row3 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendFormat("  {0}", s2) |> ignore
         sb.AppendLine() |> ignore
         sb.Append("|D|") |> ignore
-        board.south.row4 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player2Side.row4 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendLine() |> ignore
         sb.Append("|E|") |> ignore
-        board.south.row5 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
+        board.player2Side.row5 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
         sb.AppendLine() |> ignore
         sb.Append("---") |> ignore
         ([0 .. 9] |> List.iter (fun i -> sb.AppendFormat("--- {0} ----", i) |> ignore)) |> ignore
