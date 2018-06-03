@@ -39,5 +39,8 @@ module Game =
         }
         game
 
+    let parseCommand (command : string) : Command =
+        { isValid = true; cardNumber = 1; cardField = S_A5; cardTargetFields = [N_A1; N_A2] }
+
     let processGameCommand (game : Game) (player : Player) (command : string) : unit =
         ()

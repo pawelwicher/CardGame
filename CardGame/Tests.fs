@@ -193,3 +193,10 @@ module Tests =
 
         actual.player1Graveyard.cards |> should be Empty
         actual.player2Graveyard.cards |> should be Empty
+
+    [<Fact>]
+    let ``when parseCommand is called with "1 S_A5 N_A1,N_A2,N_A3" created Command should be valid.`` () =
+        let actual = parseCommand "1 S_A5 N_A1,N_A2,N_A3"
+        let expected = { isValid = true; cardNumber = 1; cardField = S_A5; cardTargetFields = [N_A1; N_A2; N_A3] }
+
+        actual |> should equal expected

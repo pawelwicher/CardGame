@@ -87,3 +87,10 @@ module Types =
         player2Graveyard: Graveyard
         playerToPlay: Player
     }
+
+    type Command = {
+        isValid: bool
+        cardNumber: int
+        cardField: BoardFieldId
+        cardTargetFields: BoardFieldId list
+    }

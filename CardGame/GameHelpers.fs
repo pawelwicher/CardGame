@@ -11,10 +11,12 @@ module GameHelpers =
 
     let boardToString (board : Board) : string =
         let sb = new StringBuilder()
+        let cardToString (card : Card) : string =
+            card.name + " " + card.currentPower.ToString()
         let fieldToString (field : BoardField) : string =
             match field with
             | EmptyField -> String.Format("{0,10}", "|")
-            | Field card -> String.Format("{0,-9}|", card.name + " " + card.currentPower.ToString())
+            | Field card -> String.Format("{0,-9}|", cardToString card)
         let (s1, s2) = calculateScore board
 
         sb.Append("---") |> ignore
