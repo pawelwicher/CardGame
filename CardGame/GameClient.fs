@@ -11,7 +11,7 @@ module GameClient =
 
         client.DataReceived.Add(fun e ->
             Console.Clear()
-            e.MessageString |> Console.WriteLine
+            e.MessageString |> Console.Write
         )
 
         Console.Clear()

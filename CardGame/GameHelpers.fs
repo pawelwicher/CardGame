@@ -55,7 +55,6 @@ module GameHelpers =
         sb.AppendLine() |> ignore
         sb.Append("---") |> ignore
         ([0 .. 9] |> List.iter (fun i -> sb.AppendFormat("--- {0} ----", i) |> ignore)) |> ignore
-        sb.AppendLine() |> ignore
         sb.ToString()
 
     let handToString (hand : Hand) : string =
@@ -63,14 +62,14 @@ module GameHelpers =
 
     let gameToString (game : Game) (player : Player) : string =
         let sb = new StringBuilder()
-        sb.AppendFormat("[{0}]", player) |> ignore
+        sb.AppendFormat("[{0}] Now is {1} turn.", player, game.playerToPlay) |> ignore
         sb.AppendLine() |> ignore
         sb.AppendLine() |> ignore
-        sb.AppendFormat("{0} turn", game.playerToPlay) |> ignore
+        sb.Append(boardToString game.board) |> ignore
         sb.AppendLine() |> ignore
         sb.AppendLine() |> ignore
         sb.AppendFormat("Cards: {0}", handToString (if player = Player1 then game.player1Hand else game.player2Hand)) |> ignore
         sb.AppendLine() |> ignore
         sb.AppendLine() |> ignore
-        sb.Append(boardToString game.board) |> ignore
+        sb.Append("> ") |> ignore
         sb.ToString()

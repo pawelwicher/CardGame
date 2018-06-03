@@ -53,6 +53,10 @@ module Types =
         cards: Card list
     }
 
+    and Graveyard = {
+        cards: Card list
+    }
+
     and BoardRow =
         BoardField array
 
@@ -76,8 +80,10 @@ module Types =
     type Game = {
         board: Board
         player1Deck: Deck
-        player2Deck: Deck
         player1Hand: Hand
+        player1Graveyard: Graveyard
+        player2Deck: Deck
         player2Hand: Hand
+        player2Graveyard: Graveyard
         playerToPlay: Player
     }

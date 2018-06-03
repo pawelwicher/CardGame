@@ -174,10 +174,22 @@ module Tests =
         actual |> should equal (5, 0)
 
     [<Fact>]
-    let ``when game is created player's hands and decks should not be empty.`` () =
+    let ``when game is created player's decks should not be empty.`` () =
         let actual = createGame()
 
-        actual.player1Hand |> should not' (be Empty)
-        actual.player2Hand |> should not' (be Empty)
-        actual.player1Deck |> should not' (be Empty)
-        actual.player2Deck |> should not' (be Empty)
+        actual.player1Deck.cards |> should not' (be Empty)
+        actual.player2Deck.cards |> should not' (be Empty)
+
+    [<Fact>]
+    let ``when game is created player's hands should not be empty.`` () =
+        let actual = createGame()
+
+        actual.player1Hand.cards |> should not' (be Empty)
+        actual.player2Hand.cards |> should not' (be Empty)
+
+    [<Fact>]
+    let ``when game is created player's graveyards should not be empty.`` () =
+        let actual = createGame()
+
+        actual.player1Graveyard.cards |> should be Empty
+        actual.player2Graveyard.cards |> should be Empty
