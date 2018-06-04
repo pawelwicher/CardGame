@@ -22,6 +22,11 @@ module Game =
     let coinFlip () : Player =
         Player1
 
+    let createPlayerToPlayMessage (player: Player) : string =
+        match player with
+        | Player1 -> "Player1 turn."
+        | Player2 -> "Player2 turn."
+
     let createGame () =
         let deck1 = createDeck Player1
         let hand1 = createHand deck1
@@ -29,6 +34,7 @@ module Game =
         let deck2 = createDeck Player1
         let hand2 = createHand deck1
         let graveyard2 = createGraveyard()
+        let playerToPlay = coinFlip()
         let game = {
             board = createBoard()
             player1Deck = deck1
@@ -37,7 +43,8 @@ module Game =
             player2Deck = deck2
             player2Hand = hand2
             player2Graveyard = graveyard2
-            playerToPlay = coinFlip()
+            playerToPlay = playerToPlay
+            messages = [createPlayerToPlayMessage playerToPlay]
         }
         game
 
