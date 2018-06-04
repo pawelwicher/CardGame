@@ -1,5 +1,7 @@
 namespace CardGame
 
+open System
+open System.Text.RegularExpressions
 open Types
 open Board
 open Cards
@@ -40,7 +42,14 @@ module Game =
         game
 
     let parseCommand (command : string) : Command =
-        { isValid = true; cardNumber = 1; cardField = S_A5; cardTargetFields = [N_A1; N_A2] }
+        let m = Regex.Match(command, "(?<cardNumber>\d{1,2}) (?<cardField>(S|N)_[A-E]\d) (?<cardTargetFields>((S|N)_[A-E]\d)(,((S|N)_[A-E]\d))*)")
+        if m.Success then
+            let cardNumber = Int32.Parse m.Groups.["cardNumber"].Value
+            let cardField = stringToBoardFieldId m.Groups.["cardField"].Value
+            let cardTargetFields = m.Groups.["cardTargetFields"].Value.Split(',') |> Array.map(fun x -> stringToBoardFieldId x) |> Array.toList
+            { isValid = true; cardNumber = cardNumber; cardField = cardField; cardTargetFields = cardTargetFields }
+        else
+            { isValid = false; cardNumber = 0; cardField = UNKNOWN; cardTargetFields = [] }
 
     let processGameCommand (game : Game) (player : Player) (command : string) : unit =
         ()

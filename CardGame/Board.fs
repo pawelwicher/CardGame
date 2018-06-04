@@ -132,8 +132,9 @@ module Board =
         | S_E7 -> board.player2Side.row5.[7] <- f board.player2Side.row5.[7]
         | S_E8 -> board.player2Side.row5.[8] <- f board.player2Side.row5.[8]
         | S_E9 -> board.player2Side.row5.[9] <- f board.player2Side.row5.[9]
+        | UNKNOWN -> ()
 
-    let parseFieldId (fieldId : string) : BoardFieldId =
+    let stringToBoardFieldId (fieldId : string) : BoardFieldId =
         match fieldId with
         | "N_A0" -> N_A0
         | "N_A1" -> N_A1
