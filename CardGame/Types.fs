@@ -30,6 +30,7 @@ module Types =
         | S_C0 | S_C1 | S_C2 | S_C3 | S_C4 | S_C5 | S_C6 | S_C7 | S_C8 | S_C9
         | S_D0 | S_D1 | S_D2 | S_D3 | S_D4 | S_D5 | S_D6 | S_D7 | S_D8 | S_D9
         | S_E0 | S_E1 | S_E2 | S_E3 | S_E4 | S_E5 | S_E6 | S_E7 | S_E8 | S_E9
+        | UNKNOWN
 
     type BoardField =
         | EmptyField

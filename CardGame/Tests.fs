@@ -1,5 +1,6 @@
 ﻿namespace CardGame
 
+open System
 open Xunit
 open FsUnit.Xunit
 open Types
@@ -193,6 +194,24 @@ module Tests =
 
         actual.player1Graveyard.cards |> should be Empty
         actual.player2Graveyard.cards |> should be Empty
+
+    [<Fact>]
+    let ``when parseFieldId is called with "S_A5" string, value S_A5 expected.`` () =
+        let actual = parseFieldId "S_A5"
+
+        actual |> should equal S_A5
+
+    [<Fact>]
+    let ``when parseFieldId is called with "N_A5" string, value N_A5 expected.`` () =
+        let actual = parseFieldId "N_A5"
+
+        actual |> should equal N_A5
+
+    [<Fact>]
+    let ``when parseFieldId is called with "123" string, value UNKNOWN expected.`` () =
+        let actual = parseFieldId "123"
+
+        actual |> should equal UNKNOWN
 
     [<Fact>]
     let ``when parseCommand is called with "1 S_A5 N_A1,N_A2,N_A3" created Command should be valid.`` () =
