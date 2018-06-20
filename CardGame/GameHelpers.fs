@@ -64,7 +64,7 @@ module GameHelpers =
 
     let gameToString (game : Game) (player : Player) : string =
         let sb = new StringBuilder()
-        sb.AppendFormat("[{0}] {1}", player, String.Join(", ", game.messages)) |> ignore
+        sb.AppendFormat("[{0}] {1}", player, String.Join(", ", if player = Player1 then game.player1Messages else game.player2Messages)) |> ignore
         sb.AppendLine() |> ignore
         sb.AppendLine() |> ignore
         sb.Append(boardToString game.board) |> ignore

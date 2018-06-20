@@ -24,8 +24,8 @@ module Game =
 
     let createPlayerToPlayMessage (player: Player) : string =
         match player with
-        | Player1 -> "Player1 turn."
-        | Player2 -> "Player2 turn."
+        | Player1 -> "Player1 turn"
+        | Player2 -> "Player2 turn"
 
     let createGame () =
         let deck1 = createDeck Player1
@@ -44,7 +44,8 @@ module Game =
             player2Hand = hand2
             player2Graveyard = graveyard2
             playerToPlay = playerToPlay
-            messages = [createPlayerToPlayMessage playerToPlay]
+            player1Messages = [createPlayerToPlayMessage playerToPlay]
+            player2Messages = [createPlayerToPlayMessage playerToPlay]
         }
         game
 
@@ -58,5 +59,22 @@ module Game =
         else
             { isValid = false; cardNumber = 0; cardField = UNKNOWN; cardTargetFields = [] }
 
+    let switchPlayerToPlay (game : Game) : unit =
+        match game.playerToPlay with
+        | Player1 -> game.playerToPlay <- Player2
+        | Player2 -> game.playerToPlay <- Player1
+
     let processGameCommand (game : Game) (player : Player) (command : string) : unit =
-        ()
+        if game.playerToPlay = player then
+            let cmd = parseCommand command
+            if cmd.isValid then
+                switchPlayerToPlay game
+                game.player1Messages <- [createPlayerToPlayMessage game.playerToPlay]
+                game.player2Messages <- [createPlayerToPlayMessage game.playerToPlay]
+            else
+                if game.playerToPlay = Player1 then
+                    game.player1Messages <- [createPlayerToPlayMessage game.playerToPlay; "Invalid command"]
+                    game.player2Messages <- [createPlayerToPlayMessage game.playerToPlay]
+                else
+                    game.player1Messages <- [createPlayerToPlayMessage game.playerToPlay]
+                    game.player2Messages <- [createPlayerToPlayMessage game.playerToPlay; "Invalid command"]

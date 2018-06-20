@@ -86,8 +86,9 @@ module Types =
         player2Deck: Deck
         player2Hand: Hand
         player2Graveyard: Graveyard
-        playerToPlay: Player
-        messages: string list
+        mutable playerToPlay: Player
+        mutable player1Messages: string list
+        mutable player2Messages: string list
     }
 
     type Command = {
