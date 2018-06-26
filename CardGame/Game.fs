@@ -27,11 +27,14 @@ module Game =
         | Player1 -> "Player1 turn"
         | Player2 -> "Player2 turn"
 
+    let createInvalidCommandMessge () : string =
+        "Invalid command"
+
     let createGame () =
         let deck1 = createDeck Player1
         let hand1 = createHand deck1
         let graveyard1 = createGraveyard()
-        let deck2 = createDeck Player1
+        let deck2 = createDeck Player2
         let hand2 = createHand deck1
         let graveyard2 = createGraveyard()
         let playerToPlay = coinFlip()
@@ -54,7 +57,7 @@ module Game =
         if m.Success then
             let cardNumber = Int32.Parse m.Groups.["cardNumber"].Value
             let cardField = stringToBoardFieldId m.Groups.["cardField"].Value
-            let cardTargetFields = m.Groups.["cardTargetFields"].Value.Split(',') |> Array.map(fun x -> stringToBoardFieldId x) |> Array.toList
+            let cardTargetFields = m.Groups.["cardTargetFields"].Value.Split(',') |> (Array.map stringToBoardFieldId >> Array.toList)
             { isValid = true; cardNumber = cardNumber; cardField = cardField; cardTargetFields = cardTargetFields }
         else
             { isValid = false; cardNumber = 0; cardField = UNKNOWN; cardTargetFields = [] }
@@ -73,8 +76,8 @@ module Game =
                 game.player2Messages <- [createPlayerToPlayMessage game.playerToPlay]
             else
                 if game.playerToPlay = Player1 then
-                    game.player1Messages <- [createPlayerToPlayMessage game.playerToPlay; "Invalid command"]
+                    game.player1Messages <- [createPlayerToPlayMessage game.playerToPlay; createInvalidCommandMessge()]
                     game.player2Messages <- [createPlayerToPlayMessage game.playerToPlay]
                 else
                     game.player1Messages <- [createPlayerToPlayMessage game.playerToPlay]
-                    game.player2Messages <- [createPlayerToPlayMessage game.playerToPlay; "Invalid command"]
+                    game.player2Messages <- [createPlayerToPlayMessage game.playerToPlay; createInvalidCommandMessge()]
