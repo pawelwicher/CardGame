@@ -10,11 +10,11 @@ module Game =
 
     let createDeck (player: Player) : Deck =
         match player with
-        | Player1 -> { cards = [createCard Knight; createCard Archer] }
-        | Player2 -> { cards = [createCard Archer; createCard Druid] }
+        | Player1 -> { cards = [createCard Knight; createCard Archer; createCard Druid] }
+        | Player2 -> { cards = [createCard Archer; createCard Druid; createCard Knight] }
 
     let createHand (deck : Deck) : Hand =
-        { cards = [createCard Knight; createCard Archer] }
+        { cards = deck.cards |> List.take 2 }
 
     let createGraveyard () : Graveyard =
         { cards = [] }
@@ -35,10 +35,10 @@ module Game =
         let hand1 = createHand deck1
         let graveyard1 = createGraveyard()
         let deck2 = createDeck Player2
-        let hand2 = createHand deck1
+        let hand2 = createHand deck2
         let graveyard2 = createGraveyard()
         let playerToPlay = coinFlip()
-        let game = {
+        {
             board = createBoard()
             player1Deck = deck1
             player1Hand = hand1
@@ -50,7 +50,6 @@ module Game =
             player1Messages = [createPlayerToPlayMessage playerToPlay]
             player2Messages = [createPlayerToPlayMessage playerToPlay]
         }
-        game
 
     let parseCommand (command : string) : Command =
         let m = Regex.Match(command, "(?<cardNumber>\d{1,2}) (?<cardField>(S|N)_[A-E]\d) (?<cardTargetFields>((S|N)_[A-E]\d)(,((S|N)_[A-E]\d))*)")

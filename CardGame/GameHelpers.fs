@@ -36,11 +36,11 @@ module GameHelpers =
             sb.Append("|B|") |> ignore
             board.player2Side.row2 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
             sb.AppendLine() |> ignore
-            sb.Append("|A p2|") |> ignore
+            sb.Append("|A|") |> ignore
             board.player2Side.row1 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
             sb.AppendLine() |> ignore
             sb.AppendLine("-" |> String.replicate 103) |> ignore
-            sb.Append("|A p1|") |> ignore
+            sb.Append("|A|") |> ignore
             board.player1Side.row1 |> Array.iter (fun x -> sb.Append(fieldToString x) |> ignore)
             sb.AppendLine() |> ignore
             sb.Append("|B|") |> ignore
