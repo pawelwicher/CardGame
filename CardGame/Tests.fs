@@ -266,7 +266,7 @@ module Tests =
         game.player2Messages |> should equal ["Player2 turn"; "Invalid command"]
 
     [<Fact>]
-    let ``when processGameCommand is called and player to play is Player1 and he sends valid command player to play should be switched then Player2 send invalid command and then valid command player to play should be switched..`` () =
+    let ``when processGameCommand is called and player to play is Player1 and he sends valid command player to play should be switched then Player2 send invalid command and then valid command player to play should be switched.`` () =
         let game = createGame()
         
         processGameCommand game Player1 "1 S_A5 N_A1,N_A2,N_A3"
@@ -283,3 +283,22 @@ module Tests =
         game.playerToPlay |> should equal Player1
         game.player1Messages |> should equal ["Player1 turn"]
         game.player2Messages |> should equal ["Player1 turn"]
+
+    [<Fact>]
+    let ``when processGameCommand is called and player to play is Player1 and he sends valid command player to play should be switched then Player2 send valid command player play should be switched and then Player2 send valid command player play should be switched.`` () =
+        let game = createGame()
+        
+        processGameCommand game Player1 "1 S_A5 N_A1,N_A2,N_A3"
+        game.playerToPlay |> should equal Player2
+        game.player1Messages |> should equal ["Player2 turn"]
+        game.player2Messages |> should equal ["Player2 turn"]
+
+        processGameCommand game Player2 "1 N_A5 S_A1,S_A2,S_A3"
+        game.playerToPlay |> should equal Player1
+        game.player1Messages |> should equal ["Player1 turn"]
+        game.player2Messages |> should equal ["Player1 turn";]
+
+        processGameCommand game Player1 "1 S_A5 N_A1,N_A2,N_A3"
+        game.playerToPlay |> should equal Player2
+        game.player1Messages |> should equal ["Player2 turn"]
+        game.player2Messages |> should equal ["Player2 turn"]
